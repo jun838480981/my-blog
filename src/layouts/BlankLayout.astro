@@ -1,0 +1,29 @@
+---
+import '../styles/global.css'
+
+interface Props {
+  title: string
+}
+
+const { title } = Astro.props
+---
+
+<!doctype html>
+<html lang='zh-CN' class='scroll-smooth'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='description' content='普氏企业 - 隧道智能建造产业赋能专家' />
+    <meta name='viewport' content='width=device-width' />
+    <link rel='icon' type='image/svg+xml' href='/favicon.svg' />
+    <title>{title}</title>
+    <link rel='preconnect' href='https://fonts.googleapis.com' />
+    <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin />
+    <link
+      href='https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap'
+      rel='stylesheet'
+    />
+  </head>
+  <body class='font-sans antialiased text-slate-700 bg-white relative'>
+    <slot />
+  </body>
+</html>

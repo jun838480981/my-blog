@@ -1,0 +1,11 @@
+---
+import BlankLayout from '../layouts/BlankLayout.astro'
+// 引入 Vue 组件
+import PhotoView from '../components/PhotoView.vue'
+---
+
+<BlankLayout title='普氏企业 - 测试'>
+  <div>
+    <PhotoView client:only='vue' />
+  </div>
+</BlankLayout>
