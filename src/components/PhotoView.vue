@@ -12,7 +12,7 @@ import '@photo-sphere-viewer/markers-plugin/index.css'
 
 import { AutorotatePlugin } from '@photo-sphere-viewer/autorotate-plugin'
 
-// import { CubemapAdapter } from '@photo-sphere-viewer/cubemap-adapter'
+import { CubemapAdapter } from '@photo-sphere-viewer/cubemap-adapter'
 
 import ImagePreview from './ImagePreview.vue'
 
@@ -57,6 +57,20 @@ const sceneList = [
           type: 'link',
           linkNodeId: 'scene-2'
         }
+      },
+      {
+        id: 'video',
+        videoLayer: '/rick.webm',
+        position: [
+          { yaw: 2.90978, pitch: 0.25583 },
+          { yaw: 3.20036, pitch: 0.2522 },
+          { yaw: 3.20567, pitch: -0.28784 },
+          { yaw: 2.92182, pitch: -0.31297 }
+        ],
+        style: {
+          cursor: 'pointer'
+        },
+        tooltip: 'Play / Pause'
       }
       // {
       //   id: 'marker-2',
@@ -243,15 +257,15 @@ const initViewer = () => {
 
     // adapter: CubemapAdapter, // 立方体贴图适配器
     // panorama: {
-    //   left: baseUrl + 'cubemap/px.jpg',
-    //   front: baseUrl + 'cubemap/nz.jpg',
-    //   right: baseUrl + 'cubemap/nx.jpg',
-    //   back: baseUrl + 'cubemap/pz.jpg',
-    //   top: baseUrl + 'cubemap/py.jpg',
-    //   bottom: baseUrl + 'cubemap/ny.jpg'
+    //   left: '/scene-1/six_l.jpg',
+    //   front: '/scene-1/six_f.jpg',
+    //   right: '/scene-1/six_r.jpg',
+    //   back: '/scene-1/six_b.jpg',
+    //   top: '/scene-1/six_u.jpg',
+    //   bottom: '/scene-1/six_d.jpg'
     // },
     // 默认适配器
-    panorama: '/scene-1.jpg',
+    panorama: '/artist-workshop.jpg',
     loadingImg:
       'https://photo-sphere-viewer-data.netlify.app/assets/loader.gif',
     navbar: null,
@@ -264,8 +278,8 @@ const initViewer = () => {
       MarkersPlugin,
       VirtualTourPlugin,
       AutorotatePlugin.withConfig({
-        autostartDelay: null,
-        autostartOnIdle: false,
+        autostartDelay: null, // 延迟后自动开始旋转
+        autostartOnIdle: true, // 空闲状态自动旋转
         autorotatePitch: 0
       })
     ],
@@ -293,8 +307,7 @@ const initViewer = () => {
   })
 }
 // 查看器准备就绪事件
-const viewerReady = (data) => {
-  console.log('🚀 ~ viewerReady ~ data:', data)
+const viewerReady = () => {
   setTimeout(() => {
     if (isInit) {
       intro(animatedValues.pitch.end, animatedValues.pitch.end)
@@ -305,10 +318,16 @@ const viewerReady = (data) => {
 // 加载场景标记
 const loadMarkers = () => {
   const markersPlugin = viewer.getPlugin(MarkersPlugin) // 正确获取插件
-
   markersPlugin.setMarkers(sceneList[0].markers)
   markersPlugin.addEventListener('select-marker', ({ marker }) => {
     const markerData = marker.data
+    if (marker.id === 'video') {
+      if (marker.video.paused) {
+        marker.video.play()
+      } else {
+        marker.video.pause()
+      }
+    }
     if (markerData.type === 'link') {
       const linkNodeId = markerData.linkNodeId
       const linkNode = sceneList.find((scene) => scene.id === linkNodeId)
@@ -327,7 +346,6 @@ const loadMarkers = () => {
 // 执行介绍动画
 function intro(pitch, yaw) {
   const autorotate = viewer.getPlugin(AutorotatePlugin)
-
   isInit = false
   loadMarkers()
   autorotate.stop()
