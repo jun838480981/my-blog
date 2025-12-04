@@ -11,9 +11,15 @@ importers:
       '@astrojs/vue':
         specifier: ^5.1.3
         version: 5.1.3(@types/node@24.10.1)(astro@5.16.3(@types/node@24.10.1)(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.53.3)(typescript@5.9.3))(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.53.3)(vue@3.5.25(typescript@5.9.3))
+      '@photo-sphere-viewer/autorotate-plugin':
+        specifier: ^5.14.0
+        version: 5.14.0(@photo-sphere-viewer/core@5.14.0)
       '@photo-sphere-viewer/core':
         specifier: ^5.14.0
         version: 5.14.0
+      '@photo-sphere-viewer/cubemap-adapter':
+        specifier: ^5.14.0
+        version: 5.14.0(@photo-sphere-viewer/core@5.14.0)
       '@photo-sphere-viewer/gyroscope-plugin':
         specifier: ^5.14.0
         version: 5.14.0(@photo-sphere-viewer/core@5.14.0)
@@ -549,8 +555,18 @@ packages:
   '@oslojs/encoding@1.1.0':
     resolution: {integrity: sha512-70wQhgYmndg4GCPxPPxPGevRKqTIJ2Nh4OkiMWmDAVYsTQ+Ta7Sq+rPevXyXGdzr30/qZBnyOalCszoMxlyldQ==}
 
+  '@photo-sphere-viewer/autorotate-plugin@5.14.0':
+    resolution: {integrity: sha512-8y+guV3/hN9GJ1eTRoRIk/phtEO5JFLzjTrB5dH+b3frr1J+7oxujE3d2dLDFPeJAcTqhlo0eojaQviOEPUdkQ==}
+    peerDependencies:
+      '@photo-sphere-viewer/core': 5.14.0
+
   '@photo-sphere-viewer/core@5.14.0':
     resolution: {integrity: sha512-V0JeDSB1D2Q60Zqn7+0FPjq8gqbKEwuxMzNdTLydefkQugVztLvdZykO+4k5XTpweZ2QAWPH/QOI1xZbsdvR9A==}
+
+  '@photo-sphere-viewer/cubemap-adapter@5.14.0':
+    resolution: {integrity: sha512-IbjtgfJWSGpOOw+5ge9YMKntfV2+s/SbhnxH+rlDNIto0s4+EY7yyRaHICS2VHr0qhZH/NibQJC4JwavcFW0ew==}
+    peerDependencies:
+      '@photo-sphere-viewer/core': 5.14.0
 
   '@photo-sphere-viewer/gyroscope-plugin@5.14.0':
     resolution: {integrity: sha512-KDaQlL9E1Od2ipISRgZzLeG/iH46h05K6iP6qszZX5e+YeSR8aeYFg1Q9qdo1JYm0LhSaA5Hd9jffFa+dDDQPw==}
@@ -2752,9 +2768,17 @@ snapshots:
 
   '@oslojs/encoding@1.1.0': {}
 
+  '@photo-sphere-viewer/autorotate-plugin@5.14.0(@photo-sphere-viewer/core@5.14.0)':
+    dependencies:
+      '@photo-sphere-viewer/core': 5.14.0
+
   '@photo-sphere-viewer/core@5.14.0':
     dependencies:
       three: 0.179.1
+
+  '@photo-sphere-viewer/cubemap-adapter@5.14.0(@photo-sphere-viewer/core@5.14.0)':
+    dependencies:
+      '@photo-sphere-viewer/core': 5.14.0
 
   '@photo-sphere-viewer/gyroscope-plugin@5.14.0(@photo-sphere-viewer/core@5.14.0)':
     dependencies:
