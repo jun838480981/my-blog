@@ -14,6 +14,7 @@ import { AutorotatePlugin } from '@photo-sphere-viewer/autorotate-plugin'
 
 import { CubemapAdapter } from '@photo-sphere-viewer/cubemap-adapter'
 
+import Loading from './Loading.vue'
 import ImagePreview from './ImagePreview.vue'
 
 const imagePreview = ref()
@@ -244,6 +245,7 @@ const animatedValues = {
   maxFov: { start: 130, end: 90 },
   fisheye: { start: 2, end: 0 }
 }
+const loading = ref(true)
 let isInit = true
 // 定义Viewer实例
 let viewer = null
@@ -266,8 +268,9 @@ const initViewer = () => {
     // },
     // 默认适配器
     panorama: '/artist-workshop.jpg',
-    loadingImg:
-      'https://photo-sphere-viewer-data.netlify.app/assets/loader.gif',
+    loadingTxt: null,
+    loadingImg: null,
+    // 'https://photo-sphere-viewer-data.netlify.app/assets/loader.gif',
     navbar: null,
     defaultTransition: {
       speed: 1500,
@@ -308,6 +311,7 @@ const initViewer = () => {
 }
 // 查看器准备就绪事件
 const viewerReady = () => {
+  loading.value = false
   setTimeout(() => {
     if (isInit) {
       intro(animatedValues.pitch.end, animatedValues.pitch.end)
@@ -329,12 +333,14 @@ const loadMarkers = () => {
       }
     }
     if (markerData.type === 'link') {
+      loading.value = true
       const linkNodeId = markerData.linkNodeId
       const linkNode = sceneList.find((scene) => scene.id === linkNodeId)
       if (linkNode) {
         markersPlugin.clearMarkers()
         viewer.setPanorama(linkNode.panorama).then(() => {
           markersPlugin.setMarkers(linkNode.markers)
+          loading.value = false
         })
       }
     } else if (markerData.type === 'preview') {
@@ -380,6 +386,7 @@ function intro(pitch, yaw) {
   <div ref="panoramaContainer" class="w-screen h-screen"></div>
 
   <ImagePreview ref="imagePreview" />
+  <Loading v-show="loading" />
 </template>
 
 <style>
@@ -424,5 +431,8 @@ function intro(pitch, yaw) {
   100% {
     background-position-y: -1600px; /* 最后1帧（底部，总高度的负值） */
   }
+}
+.psv-loader-container {
+  display: none;
 }
 </style>
